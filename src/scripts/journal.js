@@ -95,7 +95,7 @@
 // Tip: Once this is done, your journal.js file should be completely empty. [Yes!]
 
 // Now refactor your src/index.html file to include all four JavaScript files.
-[Completed!  And checked to make sure that it is working as planned!]
+// [Completed!  And checked to make sure that it is working as planned!]
 // Refactor
 // Replace the code in src/scripts/data.js with the code below. Since you moved the code to this file, you should consider this file an independent, helper module now. It should not directly execute any logic for the application. The responsbility for how the application should operate should reside in src/scripts/journal.js now.
 
@@ -116,7 +116,7 @@
 //             .then(response => response.json())
 //     }
 // }
-// Both are valid, but the first example saves a few characters.
+// Both are valid, but the first example saves a few characters. [Completed!]
 
 // Main Application Logic
 // Now that you've defined an object whose responsibility is to access the data, you need to write code in src/scripts/journal.js to use that object and get the data. Once you know you have the data, pass it along to the renderJournalEntries function that now lives in src/scripts/entriesDom.js.
@@ -131,6 +131,13 @@
 //     to get the data and display it.
 // */
 // objectWithGetterMethod.methodToGetData().then(functionThatRendersData)
+
+//The API object defined in the data.js is being called and a method on that object is being executed.  The .then is being daisy-chained to send the promise object containing the JSON data to the addThisToTheDOM function defined in the entriesDOM.js file.
+
+API.getJournalEntries().then(parsedEntries => {  //A promise is always returned (in this case this function is not returning anything to be put into the promise object, however)
+        addThisToTheDOM(parsedEntries) 
+    });
+
 // Challenge
 // Change the code in both src/scripts/entriesDOM.js and src/scripts/entryComponent.js so that the functions in each one becomes a method on an object, just like the code for API does above. Use Object.create.
 
