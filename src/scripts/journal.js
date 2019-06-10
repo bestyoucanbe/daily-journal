@@ -135,16 +135,17 @@
 //The API object defined in the data.js is being called and a method on that object is being executed.  The .then is being daisy-chained to send the promise object containing the JSON data to the addThisToTheDOM function defined in the entriesDOM.js file.
 
 API.getJournalEntries().then(parsedEntries => {  //A promise is always returned (in this case this function is not returning anything to be put into the promise object, however)
-        addThisToTheDOM(parsedEntries) 
+    DOMMethods.addThisToTheDOM(parsedEntries)
     });
 
 // Challenge
-// Change the code in both src/scripts/entriesDOM.js and src/scripts/entryComponent.js so that the functions in each one becomes a method on an object, just like the code for API does above. Use Object.create.
+// Change the code in both src/scripts/entriesDOM.js and src/scripts/entryComponent.js so that the functions in each one becomes a method on an object, just like the code for API does above. Use Object.create. [Completed.]
 
 // When you are done, there should be three objects defined in your application.
 
 // One object that has a method for API access
-// One object that has a method for building a component
-// One object that has a method rendering the components to the DOM
+// One object that has a method for building a component [Called it buildHTML in the entryComponent.js file.]
+// One object that has a method rendering the components to the DOM [Called it DOMMethods in the entriesDOM.js file.]
 // Refactor: Once the objects are defined, refactor your code to use the methods on those objects where needed.
+// [Called the DOMMethods method in journal.js, called buildHTML method in entriesDOM.js file.]
 //Instructions for Daily Journal 5---Ends Here ***************************************
