@@ -1,151 +1,126 @@
-//Instructions for Daily Journal 4---Starts Here *****************************************
-// -----------------------------------------
-// Daily Journal 4--Overall Goals
-// Your learning objective in this chapter is to set up JSON Server to store the data for your daily journal entries, query that data from the API, and then use your knowledge of Promises (remember, fetch is a fancy Promise) and then() to render the entries to the DOM.
+//Instructions for Daily Journal 6---Starts Here *****************************************
 
-// [You are going to expose your journal entries via an API, request that API over HTTP, and then populate your DOM when the data comes back in a response.]
-// ------------------------------------------
-// Install json-server by typing in the following command in your terminal-- npm install -g json-server [Completed]
+// Overall Goals-->The learning objective for this chapter is to apply your knowledge of event listeners, and querying the DOM to make your daily journal form work and save entries to your API. You will also use fetch to make a POST request to your API, while using a factory function to generate the object that will be saved.
 
-// Create a new directory in your project named api, and create a new file in that directory named entries.json. [Completed]
+// Listen for Submit Button Click
+// In your main JavaScript module (journal.js) add a click event listener to the Record Journal Entry button at the bottom of your form. When the user clicks the button, you need to create a new entry in your API. The HTTP method that you use to create resources is POST. Guidance on syntax is provided below.
 
-// Your next step is to remove the array of entries that you have in journal.js, and transplant it to api/entries.json as a JSON object. [Completed]
+// Collect Form Field Values
+// Use document.querySelector to select your input fields.
+// Use the .value property on the input field elements to get the text that you typed/chose.
+// Basic Input Validation
+// Using required attribute to ensure no blank entries
+// No characters other than letters, numbers, (), {}, :, and ;
+// Journal Entry Factory Function
+// Define a factory function whose responsibility is to generate an object that represents a journal entry.
 
-// When working with Official JSON Objects, all keys should be strings so put double quotes around them. [Completed]
+// Using POST Method to Create Resources
+// Now you must use fetch to create your journal entry in the API. The default method is GET, so you've never had to specify and configuration options with your fetch statements before. However, with POST, you need to configure the request.
 
-// Now you run the json-server command with the arguments below in the api directory: [Completed]
+// Here's an example.
 
-// cd api
-// json-server -w entries.json
+// // Invoke the factory function, passing along the form field values
+// const newJournalEntry = ??
 
-// Go to your browser now, and visit the URL listed in the output. It should be http://localhost:3000. Then click on the hyperlink for entries and you should see the objects that you created. [Completed]
+// // Use `fetch` with the POST method to add your entry to your API
+// fetch("url", { // Replace "url" with your API's URL
+//     method: "POST",
+//     headers: {
+//         "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify(newJournalEntry)
+// })
+// Chained Promises
+// Add new method named saveJournalEntry to your data module. It should take the entry object as an argument.
+// Implement the method using fetch to perform a POST request.
+// In main module, invoke method to save entry, then add item to local array.
+// Update DOM with updated array values.
+// post.then(get).then(render)
 
-// --------------------------
+//Instructions for Daily Journal 6---Ends Here *****************************************
+function createEntryItem( journalDateval, conceptsCoveredval, journalEntryval, moodfortheDayval) {
+  const entryItem = {
+            "Date_of_Entry":  journalDateval,
+            "Concepts_Covered": conceptsCoveredval,
+            "Journal_Entry":  journalEntryval,
+            "Mood_for_the_Day":  moodfortheDayval
+          };
+  return entryItem;
+}
 
-//**** Moved to entryComponent.js 
-// function buildHTMLstringtemplate (singleJournalEntry) {
-//   const stringTemplateforOneItem = `<h1>Concepts Covered:  ${singleJournalEntry.Concepts_Covered}<h3>Date of Entry:  ${singleJournalEntry.Date_of_Entry} <h3><p>Journal Entry:  ${singleJournalEntry.Journal_Entry}<p><h3>Mood for the Day:  ${singleJournalEntry.Mood_for_the_Day}</h3>`;
-//   return stringTemplateforOneItem;
-//**** Moved to entryComponent.js
-
-// Render Journal Entries to the DOM
-// Create a new element in your index.html file that will be the container for all of your journal entries. Place it beneath the form component.
-
-// Now write a function whose reponsibility is to iterate your array of journal entries and add them to the DOM.
-
-//**** Moved to entriesDOM.js start
-// function addThisToTheDOM (entireObject) {
-  
-//   let forHoldingHTMLstringtemplate = ""; //Initialize a variable for holding the HTML string
-//   for (let i = 0; i < entireObject.length; i++) {
-    
-//     forHoldingHTMLstringtemplate += buildHTMLstringtemplate(entireObject[i]);//Pass each journal entry into the function that creates the template and have it add to the previous value
-    
+function validateInputFields(conceptsCoveredval, journalEntryval) {
+//   let theseValidCharacters = /^[a-zA-Z|:|,|{}|()]+$/;
+//   if (
+//     conceptsCoveredval.match(theseValidCharacters) &&
+//     journalEntryval.match(theseValidCharacters)
+//   ) {
+//     return true;
+//   } else {
+//     //Clear the fields and ask them to reinput the data.
+//     document.querySelector("#conceptsCovered").value = "";
+//     document.querySelector("#journalEntry").value = "";
+//     alert(
+//       "Please enter valid characters in the fields.  Do not leave it empty."
+//     );
+//     return false;
 //   }
-//   let putitHere = document.querySelector('#output'); //Find the location for sending your HTML that was generated
-//   putitHere.innerHTML = forHoldingHTMLstringtemplate;  //Change the innerHTML property of the item to contain the newly generated stringtemplate that contains all the journal entries
-  
-// }
-//**** Moved to entriesDOM.js end
+}
 
-// Using fetch() to Query Data
-
-// Refactor: At this point, the journalEntries array should be completely removed from your JavaScript. You are now going to get the data from your API server. [Completed]
-
-// Since you are now simulating the scenario that your data now lives somewhere else on the Web you need to use the fetch() command in JavaScript. [Completed]
-
-// fetch() // Fetch from the API
-//     .then()  // Parse as JSON
-//     .then(entries => {
-//         // What should happen when we finally have the array?
-//     })
-// **** Moved to data.js start
-// fetch("http://localhost:3000/objectsJournalEntry")
-//   .then(data => data.json())
-//   .then(parsedEntries => {
-//       addThisToTheDOM(parsedEntries) //Refactored the code be called from within the fetch statement
-//   });
-// **** Moved to data.js end
-
-// -----------------------------
-// Viewing the Response [Completed]
-
-// Once you have your fetch written correctly, refresh your browser and go to the Network tab in your dev tools. You will see an entry labeled fetch. If you click on that request, you can preview the response.
-
-// ----------------------------
-
-//Instructions for Daily Journal 4---Ends Here *****************************************
-//Instructions for Daily Journal 5---Starts Here ***************************************
-
-// In this stage of the application, you are going to modularize your JavaScript code. You will create several JavaScript files, which each have a single responsibility. ****IMPORTANT:  Then you will need to include them in your index.html in the correct order.****
-
-// By modularizing your code, you achieve two main goals:
-
-// 1.  When changes need to be made to your application, it makes it far easier to find the code that needs to change. This benefit comes at the expense of having more files to manage, and open, during development.
-
-// 2.  It nearly eliminates the possibility of merge conflicts. When working in a team, each developer takes responsbility for making a very specific change. By modularizing your code, the likelihood that two developers will need to be working on the same file, at the same time, is minimized.
-
-// Single Responsbility Modules
-
-// Create three new files in your src/scripts directory.
-
-// data.js - Move the code that deals with getting the data into this file. [Completed]
-// entriesDOM.js - Move the code that is responsible for modifying the DOM into this file. [Completed]
-// entryComponent.js - Move the code that is responsible for creating the journal entry HTML component into this file. [Completed]
-// Tip: Once this is done, your journal.js file should be completely empty. [Yes!]
-
-// Now refactor your src/index.html file to include all four JavaScript files.
-// [Completed!  And checked to make sure that it is working as planned!]
-// Refactor
-// Replace the code in src/scripts/data.js with the code below. Since you moved the code to this file, you should consider this file an independent, helper module now. It should not directly execute any logic for the application. The responsbility for how the application should operate should reside in src/scripts/journal.js now.
-
-// The code in the data.js module, then, should only define functionality for how to access the data, but should not immediately run it.
-
-// API Access Module
-// const API = {
-//     getJournalEntries () {
-//         return fetch("http://localhost:3000/entries")
-//             .then(response => response.json())
-//     }
-// }
-// You may have noticed some strange syntax in the object above. It's ok if you didn't. Take a closer look and you will see that the getJournalEntries method on the object was defined with the traditioanltraditional key: value syntax. Here's the same object using that syntax.
-
-// const API = {
-//     getJournalEntries: function () {
-//         return fetch("http://localhost:3000/entries")
-//             .then(response => response.json())
-//     }
-// }
-// Both are valid, but the first example saves a few characters. [Completed!]
-
-// Main Application Logic
-// Now that you've defined an object whose responsibility is to access the data, you need to write code in src/scripts/journal.js to use that object and get the data. Once you know you have the data, pass it along to the renderJournalEntries function that now lives in src/scripts/entriesDom.js.
-
-// Put this comment in src/scripts/journal.js. Then write the main logic that uses the code in the helper modules.
-
-// /*
-//     Main application logic that uses the functions and objects
-//     defined in the other JavaScript files.
-
-//     Change the fake variable names below to what they should be
-//     to get the data and display it.
-// */
-// objectWithGetterMethod.methodToGetData().then(functionThatRendersData)
-
+//Display existing journal entries to the DOM
 //The API object defined in the data.js is being called and a method on that object is being executed.  The .then is being daisy-chained to send the promise object containing the JSON data to the addThisToTheDOM function defined in the entriesDOM.js file.
+API.getJournalEntries().then(parsedEntries => {
+  //A promise is always returned (in this case this function is not returning anything to be put into the promise object, however)
+  DOMMethods.addThisToTheDOM(parsedEntries);
+});
 
-API.getJournalEntries().then(parsedEntries => {  //A promise is always returned (in this case this function is not returning anything to be put into the promise object, however)
-    DOMMethods.addThisToTheDOM(parsedEntries)
+function triggerListener() {
+  document
+    .querySelector("#recordEntrybuttonid")
+    .addEventListener("click", () => {
+      console.log(`Record Entry Button was clicked`);
+      let journalDateval = document.querySelector("#journalDate").value;
+      let conceptsCoveredval = document.querySelector("#conceptsCovered").value;
+      let journalEntryval = document.querySelector("#journalEntry").value;
+      let moodfortheDayval = document.querySelector("#moodForDay").value;
+      console.log(
+        `journalDate`,
+        journalDateval,
+        `concepts covered`,
+        conceptsCoveredval,
+        `journalEntry`,
+        journalEntryval,
+        `moodfortheDayval`,
+        moodfortheDayval
+      );
+      let isitValid = validateInputFields(conceptsCoveredval, journalEntryval);
+      console.log(`isitValid`, isitValid);
+      isitValid = true;
+      if (isitValid) {
+        const newJournalEntry = createEntryItem(
+          journalDateval,
+          conceptsCoveredval,
+          journalEntryval,
+          moodfortheDayval
+        );
+        console.log(`newjournalentry`,newJournalEntry);
+        API.postJournalEntries(newJournalEntry)
+        //  .then(data => data.json())
+         .then(parsedEntries => {
+             debugger;
+            DOMMethods.addThisToTheDOM(parsedEntries);
+          }).catch(error => console.log(error));
+      }
+      // let creatorName = document.querySelector("#lego-creator").value;
+      // let color = document.querySelector("#lego-color").value;
+      // // example of calling a factory function
+      // let newLego = buildLegoObj(creatorName, color);
+      // addNewLegoCreation(newLego)
+      //   .then(data => data.json())
+      //   .then(dataJS => {
+      //     legoList.innerHTML = "";
+      //     getLegos().then(legoData => listLegos(legoData));
+      //   });
     });
+}
 
-// Challenge
-// Change the code in both src/scripts/entriesDOM.js and src/scripts/entryComponent.js so that the functions in each one becomes a method on an object, just like the code for API does above. Use Object.create. [Completed.]
-
-// When you are done, there should be three objects defined in your application.
-
-// One object that has a method for API access
-// One object that has a method for building a component [Called it buildHTML in the entryComponent.js file.]
-// One object that has a method rendering the components to the DOM [Called it DOMMethods in the entriesDOM.js file.]
-// Refactor: Once the objects are defined, refactor your code to use the methods on those objects where needed.
-// [Called the DOMMethods method in journal.js, called buildHTML method in entriesDOM.js file.]
-//Instructions for Daily Journal 5---Ends Here ***************************************
+triggerListener();
