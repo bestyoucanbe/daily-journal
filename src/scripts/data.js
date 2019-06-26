@@ -9,6 +9,15 @@
 const API = {
     getJournalEntries: function () {
         return fetch("http://localhost:3000/objectsJournalEntry")  //Access the data location and return a promise object containing it
-            .then(data => data.json()) //A promise object containing the data formatted in the JSON format is returned
+            .then(data => data.json()) //A promise object is being converted from JSON back to regular Javascript
+    },
+    postJournalEntries: function (theNewEntry) {
+        return fetch("http://localhost:3000/objectsJournalEntry", {
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(theNewEntry)
+        })
     }
 }

@@ -12,19 +12,19 @@
     <form action="">
         <fieldset>
             <label for="journalDate">Date of Entry</label>
-            <input type="date" name="journalDate" id="journalDate">
+            <input type="date" name="journalDate" id="journalDate" required>
         </fieldset>
         <fieldset>
             <label for="conceptsCovered">Concepts Covered</label>
-            <input type="text" name="conceptsCovered" id="conceptsCovered">
+            <input type="text" name="conceptsCovered" id="conceptsCovered" required>
         </fieldset>
         <fieldset>
             <label for="journalEntry">Journal Entry</label>
-            <textarea name="journalEntry" id="journalEntry"></textarea>
+            <textarea name="journalEntry" id="journalEntry" required></textarea>
         </fieldset>
         <fieldset>
             <label for="moodForDay">Mood For the Day</label>
-            <select id="moodForDay">
+            <select id="moodForDay" required>
                 <option value="">--Please choose an option--</option>
                 <option value="excited">Excited</option>
                 <option value="happy">Happy</option>
@@ -32,7 +32,7 @@
                 <option value="overwhelmed">Overwhelmed</option>
             </select>
         </fieldset>
-        <button class="recordJournalEntry" type="button">Record Journal Entry</button>
+        <button class="recordJournalEntry" id="recordEntrybuttonid" type="button">Record Journal Entry</button>
     </form>
     <!-- Where the output of the Journal entries happen -->
     <article id="output"></article>
