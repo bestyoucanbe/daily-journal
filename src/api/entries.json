@@ -27,6 +27,13 @@
       "Journal_Entry": "Jisie taught",
       "Mood_for_the_Day": "happy",
       "id": 4
+    },
+    {
+      "Date_of_Entry": "2019-06-25",
+      "Concepts_Covered": "Entity Relationship Diagrams",
+      "Journal_Entry": "Learned how to create entity relationship diagrams",
+      "Mood_for_the_Day": "excited",
+      "id": 5
     }
   ]
 }

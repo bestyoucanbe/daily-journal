@@ -103,23 +103,10 @@ function triggerListener() {
           moodfortheDayval
         );
         console.log(`newjournalentry`,newJournalEntry);
-        API.postJournalEntries(newJournalEntry)
-        //  .then(data => data.json())
-         .then(parsedEntries => {
-             debugger;
+        API.postJournalEntries(newJournalEntry).then(API.getJournalEntries).then(parsedEntries => {
             DOMMethods.addThisToTheDOM(parsedEntries);
-          }).catch(error => console.log(error));
+          });
       }
-      // let creatorName = document.querySelector("#lego-creator").value;
-      // let color = document.querySelector("#lego-color").value;
-      // // example of calling a factory function
-      // let newLego = buildLegoObj(creatorName, color);
-      // addNewLegoCreation(newLego)
-      //   .then(data => data.json())
-      //   .then(dataJS => {
-      //     legoList.innerHTML = "";
-      //     getLegos().then(legoData => listLegos(legoData));
-      //   });
     });
 }
 
