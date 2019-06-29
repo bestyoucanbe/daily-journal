@@ -1,10 +1,4 @@
-// (Old Code that is being refactored below to meet new guidelines for this javascript file:)
-
-// fetch("http://localhost:3000/objectsJournalEntry") //Access the data location and return a promise object containing it
-//   .then(data => data.json()) //A promise is returned containing the data in the JSON format
-//   .then(parsedEntries => {  //A promise is always returned (in this case this function is not returning anything to be put into the promise object, however)
-//       addThisToTheDOM(parsedEntries) 
-//   });
+// The API object containing the fetch calls to get/post/delete/update data in the database
 
 const API = {
     getJournalEntries: function () {
@@ -17,7 +11,16 @@ const API = {
         headers:{
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(theNewEntry)
+        body: JSON.stringify(theNewEntry) //Being converted to JSON format from Javascript
+        })
+    },
+    //Instructions:  On click, delete journal entry--Part 2 of 2 [Complete]
+    deleteJournalEntry: function (id) {
+        return fetch(`http://localhost:3000/objectsJournalEntry/${id}`, {
+            method: "DELETE",
+            headers:{
+                "Content-Type": "application/json"
+            }
         })
     }
 }
