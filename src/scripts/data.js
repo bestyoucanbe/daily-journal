@@ -2,11 +2,11 @@
 
 const API = {
     getJournalEntries: function () {
-        return fetch("http://localhost:3000/objectsJournalEntry")  //Access the data location and return a promise object containing it
+        return fetch(`http://localhost:3000/objectsJournalEntry`)  //Access the data location and return a promise object containing it
             .then(data => data.json()) //A promise object is being converted from JSON back to regular Javascript
     },
     postJournalEntries: function (theNewEntry) {
-        return fetch("http://localhost:3000/objectsJournalEntry", {
+        return fetch(`http://localhost:3000/objectsJournalEntry`, {
         method: "POST",
         headers:{
             "Content-Type": "application/json"
@@ -21,6 +21,15 @@ const API = {
             headers:{
                 "Content-Type": "application/json"
             }
+        })
+    },
+    updateJournalEntry:  function (theUpdatedEntry) {
+        return fetch(`http://localhost:3000/objectsJournalEntry/${theUpdatedEntry.id}`, {
+        method: "PUT",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(theUpdatedEntry) //Being converted to JSON format from Javascript
         })
     }
 }

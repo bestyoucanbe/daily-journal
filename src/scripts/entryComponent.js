@@ -28,20 +28,21 @@ const buildHTML = Object.create({
     editBtn.addEventListener("click", () => {
 
       console.log("Edit clicked")
-      let editForm = createEditForm(singleJournalEntry)
-
-      // TODO: Create the new addEditFormToDOM
-      addEditFormToDOM(innerdiv.id, editForm)
+      let editFormforThisEntry = createEditForm(singleJournalEntry)
+      let innerDivId = innerdiv.id;
+      setupEditFormandFunctionality(innerDivId, editFormforThisEntry)
 
     })
     outerdiv.appendChild(deleteBtn)
+    outerdiv.appendChild(editBtn)
     return outerdiv;
   }
 
 });
 
+//Create the edit form component
 function createEditForm(oneJournalEntry) {
-  return `<fieldset>
+  let editFormTemplate = `<fieldset>
             <label for="journalDate">Date of Entry</label>
             <input type="date" name="journalDate1" id="journalDate1" value =${oneJournalEntry.Date_of_Entry} required>
         </fieldset>
@@ -56,95 +57,112 @@ function createEditForm(oneJournalEntry) {
         </fieldset>
         <fieldset>
             <label for="moodForDay">Mood For the Day</label>
-            <select id="moodForDay" required>
+            <select id="moodForDay1" required>
                 <option value="excited" ${oneJournalEntry.Mood_for_the_Day === "excited" ? "selected": ""}>Excited</option>
                 <option value="happy" ${oneJournalEntry.Mood_for_the_Day === "happy" ? "selected": ""}>Happy</option>
                 <option value="stressed" ${oneJournalEntry.Mood_for_the_Day === "stressed" ? "selected": ""}>Stressed</option>
                 <option value="overwhelmed" ${oneJournalEntry.Mood_for_the_Day === "overwhelmed" ? "selected": ""}>Overwhelmed</option>
             </select>
         </fieldset>
-        <button id="journal-edit-btn">save journal entry</button>`
+        <button id="journal-save-btn">save journal entry</button>`
+return editFormTemplate
 }
-*******************************************************************************
 
-import {deleteLego, updateLego } from "./api.js"
-import { getAndDisplayLegos } from "./helpers.js"
-import { buildLegoObj } from "./event.js"
-
-let legoList = document.querySelector("#lego-list")
-
-// Add Lego data to the DOM
-function listLegos(legoArr) {
-  legoArr.forEach( lego => {
-    legoList.appendChild(createLegoComponent(lego))
+function setupEditFormandFunctionality(editContainerId, editForm) {
+  document.querySelector(`#${editContainerId}`).innerHTML = editForm //Place the edit form into the edit location for that id
+  document.querySelector("#journal-save-btn").addEventListener("click", () => {
+    let journalDate = document.querySelector("#journalDate1").value
+    let journalId = document.querySelector("#journal-id1").value
+    let journalConcepts = document.querySelector("#conceptsCovered1").value
+    let journalEntry = document.querySelector("#journalEntry1").value
+    let journalMood = document.querySelector("#moodForDay1").value
+    let updatedJournal = createEntryItem( journalDate, journalConcepts, journalEntry, journalMood )
+    updatedJournal.id = journalId
+    API.updateJournalEntry(updatedJournal).then(API.getJournalEntries).then(parsedEntries => {
+      DOMMethods.addThisToTheDOM(parsedEntries);
+    });
   })
 }
+// *******************************************************************************
 
-function createLegoComponent(lego) {
-  let el = document.createElement("div")
-  let li = document.createElement("li")
-  let div = document.createElement("div")
-  let deleteBtn = document.createElement("button")
-  let editBtn = document.createElement("button")
-  li.innerHTML = `${lego.creator} made a ${lego.color} thingy with legos!`
-  // Add the li to the new div
-  el.appendChild(li)
-  // give the deleteBtn an id based on the id of the lego, give it some text, and setup the event listener
-  div.setAttribute("id", `editFormContainer-${lego.id}`)
-  el.appendChild(div)
-  editBtn.textContent = "edit"
-  deleteBtn.textContent = "delete"
-  deleteBtn.addEventListener("click", () => {
-    // call the delete function
-    console.log("Is this the lego to delete?", lego.id)
-    deleteLego(lego.id)
-    .then( data => {
-      console.log(data)
-      getAndDisplayLegos()
-    })
-  })
-  editBtn.addEventListener("click", () => {
-    console.log("Edit clicked")
-    let editForm = createEditForm(lego)
-    addEditFormToDOM(div.id, editForm)
+// import {deleteLego, updateLego } from "./api.js"
+// import { getAndDisplayLegos } from "./helpers.js"
+// import { buildLegoObj } from "./event.js"
 
-  })
-  // Send the newly created element back to the function that puts the element into the DOM
-  el.appendChild(deleteBtn)
-  el.appendChild(editBtn)
-  return el
-}
+// let legoList = document.querySelector("#lego-list")
 
-function createEditForm(lego) {
-  return `
-    <input id="lego-edit" name="lego__editor" type="text" value=${lego.creator} >
-    <input type="hidden" id="lego-id" value=${lego.id}>
-    <select type="text" id="lego-color-edit">
-      <option value="red" ${lego.color === "red" ? "selected" : ""}>red</option>
-      <option value="green" ${lego.color === "green" ? "selected" : ""}>green</option>
-      <option value="black" ${lego.color === "black" ? "selected" : ""}>black</option>
-      <option value="orange" ${lego.color === "orange" ? "selected" : ""}>orange</option>
-    </select>
-    <button id="lego-edit-btn">save lego</button>
-  `
-}
+// // Add Lego data to the DOM
+// function listLegos(legoArr) {
+//   legoArr.forEach( lego => {
+//     legoList.appendChild(createLegoComponent(lego))
+//   })
+// }
 
-// Add the form to the DOM
-function addEditFormToDOM(editContainer, editForm) {
-  document.querySelector(`#${editContainer}`).innerHTML = editForm
-  document.querySelector("#lego-edit-btn").addEventListener("click", () => {
-    let name = document.querySelector("#lego-edit").value
-    let color = document.querySelector("#lego-color-edit").value
-    let legoId = document.querySelector("#lego-id").value
-    let updatedLego = buildLegoObj(name, color)
-    updatedLego.id = legoId
-    console.log(updatedLego)
-    updateLego(updatedLego)
-    .then( () => {
-      getAndDisplayLegos()
-    })
-  })
-}
+// function createLegoComponent(lego) {
+//   let el = document.createElement("div")
+//   let li = document.createElement("li")
+//   let div = document.createElement("div")
+//   let deleteBtn = document.createElement("button")
+//   let editBtn = document.createElement("button")
+//   li.innerHTML = `${lego.creator} made a ${lego.color} thingy with legos!`
+//   // Add the li to the new div
+//   el.appendChild(li)
+//   // give the deleteBtn an id based on the id of the lego, give it some text, and setup the event listener
+//   div.setAttribute("id", `editFormContainer-${lego.id}`)
+//   el.appendChild(div)
+//   editBtn.textContent = "edit"
+//   deleteBtn.textContent = "delete"
+//   deleteBtn.addEventListener("click", () => {
+//     // call the delete function
+//     console.log("Is this the lego to delete?", lego.id)
+//     deleteLego(lego.id)
+//     .then( data => {
+//       console.log(data)
+//       getAndDisplayLegos()
+//     })
+//   })
+//   editBtn.addEventListener("click", () => {
+//     console.log("Edit clicked")
+//     let editForm = createEditForm(lego)
+//     addEditFormToDOM(div.id, editForm)
+
+//   })
+//   // Send the newly created element back to the function that puts the element into the DOM
+//   el.appendChild(deleteBtn)
+//   el.appendChild(editBtn)
+//   return el
+// }
+
+// function createEditForm(lego) {
+//   return `
+//     <input id="lego-edit" name="lego__editor" type="text" value=${lego.creator} >
+//     <input type="hidden" id="lego-id" value=${lego.id}>
+//     <select type="text" id="lego-color-edit">
+//       <option value="red" ${lego.color === "red" ? "selected" : ""}>red</option>
+//       <option value="green" ${lego.color === "green" ? "selected" : ""}>green</option>
+//       <option value="black" ${lego.color === "black" ? "selected" : ""}>black</option>
+//       <option value="orange" ${lego.color === "orange" ? "selected" : ""}>orange</option>
+//     </select>
+//     <button id="lego-edit-btn">save lego</button>
+//   `
+// }
+
+// // Add the form to the DOM
+// function addEditFormToDOM(editContainer, editForm) {
+//   document.querySelector(`#${editContainer}`).innerHTML = editForm
+//   document.querySelector("#lego-edit-btn").addEventListener("click", () => {
+//     let name = document.querySelector("#lego-edit").value
+//     let color = document.querySelector("#lego-color-edit").value
+//     let legoId = document.querySelector("#lego-id").value
+//     let updatedLego = buildLegoObj(name, color)
+//     updatedLego.id = legoId
+//     console.log(updatedLego)
+//     updateLego(updatedLego)
+//     .then( () => {
+//       getAndDisplayLegos()
+//     })
+//   })
+// }
 
 
-export {listLegos}
+// export {listLegos}
