@@ -1,13 +1,6 @@
 {
   "objectsJournalEntry": [
     {
-      "Date_of_Entry": "2019-06-06",
-      "Concepts_Covered": "CLI Interface",
-      "Journal_Entry": "It was a long day but a good day!  We covered a lot of ground in a short time.",
-      "Mood_for_the_Day": "happy",
-      "id": 1
-    },
-    {
       "id": 2,
       "Date_of_Entry": "2019-06-05",
       "Concepts_Covered": "CRUD Method of Managing Data, Postman",

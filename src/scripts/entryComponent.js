@@ -16,17 +16,20 @@ const buildHTML = Object.create({
     outerdiv.appendChild(innerdiv);
     let deleteBtn = document.createElement("button") //Create delete button
     let editBtn = document.createElement("button") //Create edit button
+    deleteBtn.setAttribute("id", `delButton-${singleJournalEntry.id}`) //Setting ids on buttons to access specific buttons later
+    editBtn.setAttribute("id", `editButton-${singleJournalEntry.id}`)
     deleteBtn.textContent = "delete"
     editBtn.textContent = "edit"
     deleteBtn.addEventListener("click", () => {//Eventlistener for the delete button
-
-          API.deleteJournalEntry(singleJournalEntry.id).then(API.getJournalEntries).then(parsedEntries => {
-            DOMMethods.addThisToTheDOM(parsedEntries);
-          });
+      API.deleteJournalEntry(singleJournalEntry.id).then(API.getJournalEntries).then(parsedEntries => {
+        DOMMethods.addThisToTheDOM(parsedEntries);
+      });
 
     })
     editBtn.addEventListener("click", () => {//Eventlistener for the edit button
 
+      document.querySelector(`#delButton-${singleJournalEntry.id}`).style.display = "none" //Remove both delete and edit buttons
+      document.querySelector(`#editButton-${singleJournalEntry.id}`).style.display = "none"
       let editFormforThisEntry = createEditForm(singleJournalEntry)
       let innerDivId = innerdiv.id //Each DOM Component will have its own innerDivId (location for editing)
       setupEditFormandFunctionality(innerDivId, editFormforThisEntry, singleJournalEntry)

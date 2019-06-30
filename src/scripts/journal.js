@@ -1,13 +1,13 @@
 //Instructions for Daily Journal 9---Starts Here *****************************************
 
 // Editing Entries
-// Add edit button to journal entry
-// Add hidden input field to form to store id value of edited entry
-// Add event listener to button. Give unique id which includes id property of entry
-// When clicked, get the individual entry and populate the form fields with text content.
-// When user clicks the save button, determine if editing or creating (does hidden input field have a value?)
-// If editing, perform a PUT request to the API
-// Get all entries and display again
+// Add edit button to journal entry [Completed]
+// Add hidden input field to form to store id value of edited entry [Completed]
+// Add event listener to button. Give unique id which includes id property of entry [Completed]
+// When clicked, get the individual entry and populate the form fields with text content. [Completed]
+// When user clicks the save button, determine if editing or creating (does hidden input field have a value?) [Completed-separate form]
+// If editing, perform a PUT request to the API [Completed]
+// Get all entries and display again [Completed]
 
 //Instructions for Daily Journal 9---Ends Here *****************************************
 
