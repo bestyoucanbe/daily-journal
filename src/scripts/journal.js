@@ -1,12 +1,15 @@
-//Instructions for Daily Journal 8---Starts Here *****************************************
+//Instructions for Daily Journal 9---Starts Here *****************************************
 
-// Deleting Journal Entries
-// Add Delete button to each journal entry card that you display [Complete]
-// Add event listener to delete button [Complete]
-// On click, delete journal entry [Complete]
-// Get all entries and display again [Complete]
+// Editing Entries
+// Add edit button to journal entry [Completed]
+// Add hidden input field to form to store id value of edited entry [Completed]
+// Add event listener to button. Give unique id which includes id property of entry [Completed]
+// When clicked, get the individual entry and populate the form fields with text content. [Completed]
+// When user clicks the save button, determine if editing or creating (does hidden input field have a value?) [Completed-separate form]
+// If editing, perform a PUT request to the API [Completed]
+// Get all entries and display again [Completed]
 
-//Instructions for Daily Journal 8---Ends Here *****************************************
+//Instructions for Daily Journal 9---Ends Here *****************************************
 
 //This is the CONTROL ROOM for the journal entry App!! We call the other pieces from here ...
 
