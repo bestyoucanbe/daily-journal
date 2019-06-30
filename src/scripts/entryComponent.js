@@ -18,19 +18,19 @@ const buildHTML = Object.create({
     let editBtn = document.createElement("button")
     deleteBtn.textContent = "delete"
     editBtn.textContent = "edit"
-    deleteBtn.addEventListener("click", () => {
+    deleteBtn.addEventListener("click", () => {//Eventlistener for the delete button
 
           API.deleteJournalEntry(singleJournalEntry.id).then(API.getJournalEntries).then(parsedEntries => {
             DOMMethods.addThisToTheDOM(parsedEntries);
           });
 
     })
-    editBtn.addEventListener("click", () => {
+    editBtn.addEventListener("click", () => {//Eventlistener for the edit button
 
       console.log("Edit clicked")
       let editFormforThisEntry = createEditForm(singleJournalEntry)
       let innerDivId = innerdiv.id;
-      setupEditFormandFunctionality(innerDivId, editFormforThisEntry)
+      setupEditFormandFunctionality(innerDivId, editFormforThisEntry, singleJournalEntry)
 
     })
     outerdiv.appendChild(deleteBtn)
@@ -42,18 +42,22 @@ const buildHTML = Object.create({
 
 //Create the edit form component
 function createEditForm(oneJournalEntry) {
-  let editFormTemplate = `<fieldset>
+  let editFormTemplate = `
+            *************************
+            -------Please edit the Entry below (Origninal Information Shown Above)---------
+            *************************
+        <fieldset>
             <label for="journalDate">Date of Entry</label>
             <input type="date" name="journalDate1" id="journalDate1" value =${oneJournalEntry.Date_of_Entry} required>
         </fieldset>
         <input type="hidden" id="journal-id1" value=${oneJournalEntry.id}>
         <fieldset>
             <label for="conceptsCovered">Concepts Covered</label>
-            <input type="text" name="conceptsCovered1" id="conceptsCovered1" value=${oneJournalEntry.Concepts_Covered}required>
+            <input type="text" name="conceptsCovered1" id="conceptsCovered1" value="${oneJournalEntry.Concepts_Covered}"required>
         </fieldset>
         <fieldset>
             <label for="journalEntry">Journal Entry</label>
-            <textarea name="journalEntry1" id="journalEntry1" value=${oneJournalEntry.Journal_Entry} required></textarea>
+            <textarea name="journalEntry1" id="journalEntry1" required></textarea>
         </fieldset>
         <fieldset>
             <label for="moodForDay">Mood For the Day</label>
@@ -64,12 +68,15 @@ function createEditForm(oneJournalEntry) {
                 <option value="overwhelmed" ${oneJournalEntry.Mood_for_the_Day === "overwhelmed" ? "selected": ""}>Overwhelmed</option>
             </select>
         </fieldset>
-        <button id="journal-save-btn">save journal entry</button>`
+        <button id="journal-save-btn">save journal entry</button>` //Textarea value cannot be set-up within the string--done elsewhere
 return editFormTemplate
 }
 
-function setupEditFormandFunctionality(editContainerId, editForm) {
+function setupEditFormandFunctionality(editContainerId, editForm, oneJournalEntry) {
+  console.log('editform',editForm)
+  console.log('oneJournalentry',oneJournalEntry)
   document.querySelector(`#${editContainerId}`).innerHTML = editForm //Place the edit form into the edit location for that id
+  document.querySelector("#journalEntry1").innerHTML = oneJournalEntry.Journal_Entry; //Backfill the value into the Textarea field
   document.querySelector("#journal-save-btn").addEventListener("click", () => {
     let journalDate = document.querySelector("#journalDate1").value
     let journalId = document.querySelector("#journal-id1").value
